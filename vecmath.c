@@ -70,7 +70,6 @@ int find_vect(vect vect_list[], char name[], int num_vects){
 }
 
 int help(){
-    //PRINT HELP INFO
     printf("FINISH HELP METHOD\n");
     return 0;
 }

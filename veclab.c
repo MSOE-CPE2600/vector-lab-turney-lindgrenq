@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
                     fprintf(stdout, "Invalid input\n");
                 }
                 //print vector info or display error
-
+                int index = find_vect(vectors, token1, num_vects);
 
             }
         } else if(!strcmp(token2, "=")){
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
             if(index != -1){
                 save = &vectors[index];
             }
-            //check if doing operation or making assignment
+            //check if doing operation or making assignment using 
         }
         
 
