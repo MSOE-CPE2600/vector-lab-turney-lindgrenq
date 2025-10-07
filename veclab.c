@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
             if(index != -1){
                 save = &vectors[index];
             }
-            //check if doing operation or making assignment using 
+            //check if doing operation or making assignment using operators in the string token
         }
         
 
