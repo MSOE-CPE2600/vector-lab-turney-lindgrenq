@@ -70,7 +70,9 @@ int find_vect(vect vect_list[], char name[], int num_vects){
 }
 
 int help(){
-    fprintf(stdout, "operations supported:\nadd: +\nsubtract: -\nscaler: *\ndot product: .\ncross product: x\n");
+    fprintf(stdout, " operations supported:\n   add: +\n   subtract: -\n   scaler: *\n   dot product: .\n   cross product: x\n");
+    fprintf(stdout," commands:\n   quit: quits program\n   list: lists all vectors\n   clear: clears all saved vectors\n   vector name: prints vector info\n");
+    fprintf(stdout, " declare new vetor:\n   name = x y: sets vector with z=0 and given x and y\n   name = x y z: sets vector with given x y and z\n");
     return 0;
 }
 

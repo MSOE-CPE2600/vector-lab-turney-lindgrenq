@@ -12,7 +12,7 @@
 
 #define MAX_VECTS 10
 
-int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers, 
+int main(int argc, char* argv[]){
     char user_input[50];
     char token[5][4];
     
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
     clear(vectors, MAX_VECTS);
     int num_vects = 0;
 
-    fprintf(stdout, "enter \"help\" for help\n");
+    fprintf(stdout, "enter \"help\" for help or quit to quit\n");
     do{
         char *tok;
         fprintf(stdout, "> ");
@@ -83,11 +83,14 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
                     if(index1 != -1){
                         float scale = atof(token[2]);
                         scale_vect(&answer, &vectors[index1], scale);
-                    } else{
+                        vect_info(&answer);
+                    } else if(index2 != -1){
                         float scale = atof(token[0]);
                         scale_vect(&answer, &vectors[index2], scale);
+                        vect_info(&answer);
+                    } else{
+                        fprintf(stdout, "invalid no save scale\n");
                     }
-                    vect_info(&answer);
             } else{
                 fprintf(stdout, "invalid no save calc\n");
             }
@@ -121,6 +124,7 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
             if(ans_index == -1){
                 if(num_vects < MAX_VECTS){
                     answer = &vectors[num_vects];
+                    strcpy(vectors[num_vects].name, token[0]);
                     num_vects++;
                 } else{
                     fprintf(stdout, "only %d vects can be saved\n", MAX_VECTS);
@@ -131,7 +135,20 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
             float x = atof(token[2]);
             float y = atof(token[3]);
             float z = atof(token[4]);
-            if(!(x == 0 && y == 0 && z == 0) && !strcmp(token[1], "=")){
+            if((index1 != -1 || index2 != -1) && !strcmp(token[3], "*")){
+                //scalar save
+                if(index1 != -1){
+                    float scale = atof(token[4]);
+                    scale_vect(answer, &vectors[index1], scale);
+                    vect_info(answer);
+                } else if(index2 != -1){
+                    float scale = atof(token[2]);
+                    scale_vect(answer, &vectors[index2], scale);
+                    vect_info(answer);
+                } else{
+                    fprintf(stdout, "invalid save scale\n");
+                }
+            } else if(!(x == 0 && y == 0 && z == 0) && !strcmp(token[1], "=")){
                 // assign new
                 new_vect(answer, token[0], x, y, z);
                 vect_info(answer);
@@ -144,10 +161,6 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
                     // sub
                     sub_vect(answer, &vectors[index1], &vectors[index2]);
                     vect_info(answer);
-                } else if(!strcmp(token[3], ".")){
-                    // dot
-                    float dot = dot_vect(&vectors[index1], &vectors[index2]);
-                    fprintf(stdout, "%s . %s = %f\n", vectors[index1].name, vectors[index2].name, dot);
                 } else if(!strcmp(token[3], "x")){
                     // cross
                     cross_vect(answer, &vectors[index1], &vectors[index2]);
@@ -155,16 +168,6 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
                 } else{
                     fprintf(stdout, "invalid save operand\n");
                 }
-            } else if((index1 != -1 || index2 != -1) && !strcmp(token[3], "*")){
-                    //scalar save
-                    if(index1 != -1){
-                        float scale = atof(token[2]);
-                        scale_vect(answer, &vectors[index1], scale);
-                    } else{
-                        float scale = atof(token[4]);
-                        scale_vect(answer, &vectors[index2], scale);
-                    }
-                    vect_info(answer);
             } else{
                 fprintf(stdout, "invalid save calc\n");
             }
@@ -172,7 +175,5 @@ int main(int argc, char* argv[]){ // PROJECT TODO: help, scalers,
             fprintf(stdout, "Invalid input\n");
         }
     } while(strcmp(token[0], "quit"));
-
-
     return 0;
 }
