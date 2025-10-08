@@ -9,34 +9,34 @@
 #include <string.h>
 
 int add_vect(vect *sum, vect *vect1, vect *vect2){
-    sum->x = vect1->x + vect2->x;
-    sum->y = vect1->y + vect2->y;
-    sum->z = vect1->z + vect2->z;
+    sum->x = (vect1->x) + (vect2->x);
+    sum->y = (vect1->y) + (vect2->y);
+    sum->z = (vect1->z) + (vect2->z);
     return 0;
 }
 
 int sub_vect(vect *dif, vect *vect1, vect *vect2){
-    dif->x = vect1->x + vect2->x;
-    dif->y = vect1->y + vect2->y;
-    dif->z = vect1->z + vect2->z;
+    dif->x = (vect1->x) - (vect2->x);
+    dif->y = (vect1->y) - (vect2->y);
+    dif->z = (vect1->z) - (vect2->z);
     return 0;
 }
 
 int scale_vect(vect *save, vect *vect1, float scaler){
-    save->x = vect1->x * scaler;
-    save->y = vect1->y * scaler;
-    save->z = vect1->z * scaler;
+    save->x = (vect1->x) * scaler;
+    save->y = (vect1->y) * scaler;
+    save->z = (vect1->z) * scaler;
     return 0;
 }
 
 float dot_vect(vect *vect1, vect *vect2){
-    return (vect1->x * vect2->x) + (vect1->y * vect2->y) + (vect1->z * vect2->z);
+    return ((vect1->x) * (vect2->x)) + ((vect1->y) * (vect2->y)) + ((vect1->z) * (vect2->z));
 }
 
 int cross_vect(vect *cross, vect *vect1, vect *vect2){
-    cross->x = (vect1->y * vect2->z) - (vect1->z * vect2->y);
-    cross->y = (vect1->z * vect2->x) - (vect1->x * vect2->z);
-    cross->z = (vect1->x * vect2->y) - (vect1->y * vect2->x);
+    cross->x = ((vect1->y) * (vect2->z)) - ((vect1->z) * (vect2->y));
+    cross->y = ((vect1->z) * (vect2->x)) - ((vect1->x) * (vect2->z));
+    cross->z = ((vect1->x) * (vect2->y)) - ((vect1->y) * (vect2->x));
     return 0;
 }
 
@@ -50,13 +50,13 @@ int new_vect(vect *save, char name[], float x, float y, float z){
 
 int list_vects(vect vect_list[], int num_vects){
     for(int i = 0; i < num_vects; i++){
-        printf("%4s = <%f, %f, %f>\n", vect_list[i].name, vect_list[i].x, vect_list[i].y, vect_list[i].z);
+        fprintf(stdout, "%4s = <%f, %f, %f>\n", vect_list[i].name, vect_list[i].x, vect_list[i].y, vect_list[i].z);
     }
     return 0;
 }
 
 int vect_info(vect *vect1){
-    printf("%4s = <%f, %f, %f>\n", vect1->name, vect1->x, vect1->y, vect1->z);
+    fprintf(stdout, "%4s = <%f, %f, %f>\n", vect1->name, vect1->x, vect1->y, vect1->z);
     return 0;
 }
 
@@ -70,7 +70,7 @@ int find_vect(vect vect_list[], char name[], int num_vects){
 }
 
 int help(){
-    printf("FINISH HELP METHOD\n");
+    fprintf(stdout, "operations supported:\nadd: +\nsubtract: -\nscaler: *\ndot product: .\ncross product: x\n");
     return 0;
 }
 
