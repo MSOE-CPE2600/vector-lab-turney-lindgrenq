@@ -58,7 +58,20 @@ int main(int argc, char* argv[]){
             int index1 = find_vect(vectors, token[0], num_vects);
             int index2 = find_vect(vectors, token[2], num_vects);
             vect answer = {"ans", 0, 0, 0};
-            if(index1 != -1 && index2 != -1){ // no save operations
+            if(((index1 != -1 || index2 != -1) && !(index1 != -1 && index2 != -1)) && !strcmp(token[1], "*")){
+                    //scalar no save
+                    if(index1 != -1){
+                        float scale = atof(token[2]);
+                        scale_vect(&answer, &vectors[index1], scale);
+                        vect_info(&answer);
+                    } else if(index2 != -1){
+                        float scale = atof(token[0]);
+                        scale_vect(&answer, &vectors[index2], scale);
+                        vect_info(&answer);
+                    } else{
+                        fprintf(stdout, "invalid no save scale\n");
+                    }
+            } else if(index1 != -1 && index2 != -1){ // no save operations
                 if(!strcmp(token[1], "+")){
                     // add
                     add_vect(&answer, &vectors[index1], &vectors[index2]);
@@ -78,19 +91,6 @@ int main(int argc, char* argv[]){
                 } else{
                     fprintf(stdout, "invalid no save operand\n");
                 }
-            } else if((index1 != -1 || index2 != -1) && !strcmp(token[1], "*")){
-                    //scalar no save
-                    if(index1 != -1){
-                        float scale = atof(token[2]);
-                        scale_vect(&answer, &vectors[index1], scale);
-                        vect_info(&answer);
-                    } else if(index2 != -1){
-                        float scale = atof(token[0]);
-                        scale_vect(&answer, &vectors[index2], scale);
-                        vect_info(&answer);
-                    } else{
-                        fprintf(stdout, "invalid no save scale\n");
-                    }
             } else{
                 fprintf(stdout, "invalid no save calc\n");
             }
@@ -107,14 +107,16 @@ int main(int argc, char* argv[]){
             } else{
                 answer = &vectors[ans_index];
             }
-            float x = atof(token[2]);
-            float y = atof(token[3]);
-            if((!(x == 0 && y == 0)) && !strcmp(token[1], "=")){
-                // assign new z=0
-                new_vect(answer, token[0], x, y, 0);
-                vect_info(answer);
-            } else{
+            if(num_vects <= MAX_VECTS){
+                float x = atof(token[2]);
+                float y = atof(token[3]);
+                if((!(x == 0 && y == 0)) && !strcmp(token[1], "=")){
+                    // assign new z=0
+                    new_vect(answer, token[0], x, y, 0);
+                    vect_info(answer);
+                } else{
                 fprintf(stdout, "invalid assign command z=0\n");
+                }
             }
         } else if(token_index == 4){
             int index1 = find_vect(vectors, token[2], num_vects);
@@ -132,21 +134,23 @@ int main(int argc, char* argv[]){
             } else{
                 answer = &vectors[ans_index];
             }
-            float x = atof(token[2]);
-            float y = atof(token[3]);
-            float z = atof(token[4]);
-            if((index1 != -1 || index2 != -1) && !strcmp(token[3], "*")){
-                //scalar save
-                if(index1 != -1){
-                    float scale = atof(token[4]);
-                    scale_vect(answer, &vectors[index1], scale);
-                    vect_info(answer);
-                } else if(index2 != -1){
-                    float scale = atof(token[2]);
-                    scale_vect(answer, &vectors[index2], scale);
-                    vect_info(answer);
-                } else{
-                    fprintf(stdout, "invalid save scale\n");
+            if(num_vects <= MAX_VECTS){
+                float x = atof(token[2]);
+                float y = atof(token[3]);
+                float z = atof(token[4]);
+                if(((index1 != -1 || index2 != -1) && !(index1 != -1 && index2 != -1)) && !strcmp(token[3], "*")){
+                    //scalar save
+                    if(index1 != -1){
+                        float scale = atof(token[4]);
+                        scale_vect(answer, &vectors[index1], scale);
+                        vect_info(answer);
+                    } else if(index2 != -1){
+                        float scale = atof(token[2]);
+                        scale_vect(answer, &vectors[index2], scale);
+                        vect_info(answer);
+                    } else{
+                        fprintf(stdout, "invalid save scale\n");
+                    }
                 }
             } else if(!(x == 0 && y == 0 && z == 0) && !strcmp(token[1], "=")){
                 // assign new
