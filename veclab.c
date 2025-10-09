@@ -107,7 +107,7 @@ int main(int argc, char* argv[]){
             }
             float x = atof(token[2]);
             float y = atof(token[3]);
-            if(num_vects <= MAX_VECTS){ //********************************************************* */
+            if(num_vects <= MAX_VECTS){ 
                 if(!(x == 0 && y == 0) && !strcmp(token[1], "=")){
                     // assign new z=0
                     
@@ -136,7 +136,7 @@ int main(int argc, char* argv[]){
             float x = atof(token[2]);
             float y = atof(token[3]);
             float z = atof(token[4]);
-            if(num_vects <= MAX_VECTS){ /***************************************************************** */
+            if(num_vects <= MAX_VECTS){
                 if((index1 != -1 || index2 != -1) && !strcmp(token[3], "*")){
                     //scalar save
                     if(index1 != -1){
@@ -183,7 +183,6 @@ int main(int argc, char* argv[]){
         } else{
             fprintf(stdout, "Invalid input\n");
         }
-        printf("%d vects\n", num_vects);
     } while(strcmp(token[0], "quit"));
     return 0;
 }
