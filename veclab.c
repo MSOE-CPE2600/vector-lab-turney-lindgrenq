@@ -85,7 +85,6 @@ int main(int argc, char* argv[]){
                 fclose(file);
             } else{
                 fprintf(stdout, "invalid load/save\n");
-                fprintf(stdout, "%s\n", token[0]);
             }
         } else if(token_index == 0){
             if(!strcmp(token[0], "help")){
