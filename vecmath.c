@@ -7,6 +7,7 @@
 #include "vect.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int add_vect(vect *sum, vect *vect1, vect *vect2){
     sum->x = (vect1->x) + (vect2->x);
@@ -48,9 +49,13 @@ int new_vect(vect *save, char name[], float x, float y, float z){
     return 0;
 }
 
-int list_vects(vect vect_list[], int num_vects){
-    for(int i = 0; i < num_vects; i++){
-        fprintf(stdout, "%4s = <%f, %f, %f>\n", vect_list[i].name, vect_list[i].x, vect_list[i].y, vect_list[i].z);
+int list_vects(vect *vect_list, int num_vects){
+    if(num_vects > 0){
+        for(int i = 0; i < num_vects; i++){
+            fprintf(stdout, "%4s = <%f, %f, %f>\n", (*(vect_list + i)).name, (*(vect_list + i)).x, (*(vect_list + i)).y, (*(vect_list + i)).z);
+        }
+    } else{
+        fprintf(stdout, "there are no vectors saved\n");
     }
     return 0;
 }
@@ -60,9 +65,9 @@ int vect_info(vect *vect1){
     return 0;
 }
 
-int find_vect(vect vect_list[], char name[], int num_vects){
+int find_vect(vect *vect_list, char name[], int num_vects){
     for(int i = 0; i < num_vects; i++){
-        if(!strcmp(vect_list[i].name, name)){
+        if(!strcmp((*(vect_list + i)).name, name)){
             return i;
         }
     }
@@ -71,17 +76,13 @@ int find_vect(vect vect_list[], char name[], int num_vects){
 
 int help(){
     fprintf(stdout, " operations supported:\n   add: +\n   subtract: -\n   scaler: *\n   dot product: .\n   cross product: x\n");
-    fprintf(stdout," commands:\n   quit: quits program\n   list: lists all vectors\n   clear: clears all saved vectors\n   vector name: prints vector info\n");
+    fprintf(stdout, " commands:\n   quit: quits program\n   list: lists all vectors\n   clear: clears all saved vectors\n   vector name: prints vector info\n");
     fprintf(stdout, " declare new vetor:\n   name = x y: sets vector with z=0 and given x and y\n   name = x y z: sets vector with given x y and z\n");
+    fprintf(stdout, " file i/o:\n   load filename: clears vectors and loads vectors from .csv file\n   save filename: saves vector list as a .csv file\n");
     return 0;
 }
 
-int clear(vect vect_list[], int num_vects){
-    for(int i = 0; i < num_vects; i++){
-        strcpy(vect_list[i].name, "0");
-        vect_list[i].x = 0.0;
-        vect_list[i].y = 0.0;
-        vect_list[i].z = 0.0;
-    }
-    return 0;
+vect* clear(vect *vect_list, int default_size){
+    free(vect_list);
+    return calloc(default_size, sizeof(vect));
 }

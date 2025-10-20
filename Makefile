@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -g
 LDFLAGS=
 SOURCES= veclab.c vecmath.c
 OBJECTS=$(SOURCES:.c=.o)
